@@ -1,0 +1,13 @@
+.container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 500;
+}
+
+.vfLogo {
+  background-color: #7c3bed;
+  padding: 10px;
+  border-radius: 5px;
+  color: #fff;
+}

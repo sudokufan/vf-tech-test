@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styles from "../styles/sidebar.module.css";
 import { getResources } from "../handlers/apiHandlers";
+import Logo from "./Logo";
 
 interface Resource {
     id: string;
@@ -25,7 +26,7 @@ const Sidebar: React.FC = () => {
 
   return (
     <div className={styles.sidebar}>
-      <h2>VF RESOURCING</h2>
+      <Logo />
 
       <ul>
         {resources.map((resource) => (
