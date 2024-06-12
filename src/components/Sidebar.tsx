@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import styles from "../styles/sidebar.module.css";
+import styles from "./styles/sidebar.module.css";
 import { getResources } from "../handlers/apiHandlers";
 import Logo from "./Logo";
 

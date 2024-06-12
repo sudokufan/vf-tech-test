@@ -1,16 +1,21 @@
 import React from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import styles from "./App.module.css";
 import Sidebar from "./components/Sidebar";
+import Home from "./pages/Home";
+// import OtherRouteComponent from "./pages/OtherRouteComponent";
 
 const App: React.FC = () => {
   return (
-    <div className={styles.container}>
-      <Sidebar />
-      <div className={styles.main}>
-        <h1>Main Content</h1>
-        <p>This is the main content area.</p>
+    <BrowserRouter>
+      <div className={styles.container}>
+        <Sidebar />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            {/* <Route path="/other-route" element={<OtherRouteComponent />} /> */}
+          </Routes>
       </div>
-    </div>
+    </BrowserRouter>
   );
 }
 
