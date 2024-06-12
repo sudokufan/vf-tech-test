@@ -1,0 +1,17 @@
+.sidebar {
+  width: 20%;
+  background-color: #f9fafb;
+  padding: 20px;
+}
+
+.sidebar h2 {
+  margin-bottom: 20px;
+}
+
+.sidebar ul {
+  list-style-type: none;
+}
+
+.sidebar li {
+  margin-bottom: 10px;
+}
