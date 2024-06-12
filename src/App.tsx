@@ -10,10 +10,12 @@ const App: React.FC = () => {
     <BrowserRouter>
       <div className={styles.container}>
         <Sidebar />
+        <div className={styles.main}>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/resources/:id" element={<RoleEligibility />} />
           </Routes>
+          </div>
       </div>
     </BrowserRouter>
   );

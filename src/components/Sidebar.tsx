@@ -3,11 +3,7 @@ import { Link } from "react-router-dom";
 import styles from "./styles/sidebar.module.css";
 import { getResources } from "../handlers/apiHandlers";
 import Logo from "./Logo";
-
-interface Resource {
-    id: string;
-    name: string;
-  }
+import { Resource } from "../types";
 
 const Sidebar: React.FC = () => {
     const [resources, setResources] = useState<Resource[]>([]);
