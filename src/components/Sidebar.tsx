@@ -16,6 +16,7 @@ const Sidebar: React.FC = () => {
             try {
                 const response = await getResources();
                 const data = await response.json();
+                data.sort((a: Resource, b: Resource) => a.name.localeCompare(b.name));
                 setResources(data);
             } catch (error) {
                 console.error("Error fetching resources:", error);
