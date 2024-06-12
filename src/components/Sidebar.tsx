@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import styles from "./styles/sidebar.module.css";
 import { getResources } from "../handlers/apiHandlers";
 import Logo from "./Logo";
@@ -27,11 +28,13 @@ const Sidebar: React.FC = () => {
 
   return (
     <div className={styles.sidebar}>
-      <Logo />
+      <Link to={`/`}><Logo /></Link>
 
       <ul>
         {resources.map((resource) => (
-          <li key={resource.id}>{resource.name}</li>
+          <li key={resource.id}>
+            <Link to={`/resources/${resource.id}`}>{resource.name}</Link>
+            </li>
         ))}
       </ul>
     </div>

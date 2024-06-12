@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import styles from "./App.module.css";
 import Sidebar from "./components/Sidebar";
 import Home from "./pages/Home";
-// import OtherRouteComponent from "./pages/OtherRouteComponent";
+import RoleEligibility from "./pages/RoleEligibility";
 
 const App: React.FC = () => {
   return (
@@ -12,7 +12,7 @@ const App: React.FC = () => {
         <Sidebar />
           <Routes>
             <Route path="/" element={<Home />} />
-            {/* <Route path="/other-route" element={<OtherRouteComponent />} /> */}
+            <Route path="/resources/:id" element={<RoleEligibility />} />
           </Routes>
       </div>
     </BrowserRouter>
