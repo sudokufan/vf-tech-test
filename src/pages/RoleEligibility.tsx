@@ -6,7 +6,7 @@ import {
   getResource,
   getResourceRoleEligibility,
 } from "../handlers/apiHandlers";
-import styles from "./roleEligibility.module.css";
+import styles from "./styles/roleEligibility.module.css";
 
 const RoleEligibility: React.FC = () => {
   const [resource, setResource] = useState<Resource | null>(null);
@@ -49,7 +49,7 @@ const RoleEligibility: React.FC = () => {
   );
 
   return (
-    <div className={styles.container}>
+    <div>
       {resource && (
         <>
           <h2 className={styles.header}>

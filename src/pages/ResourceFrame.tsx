@@ -5,6 +5,7 @@ import { getResource } from "../handlers/apiHandlers";
 import Buttons from "../components/Buttons";
 import Skills from "./Skills";
 import RoleEligibility from "./RoleEligibility";
+import styles from "./styles/resourceFrame.module.css";
 
 const ResourceFrame: React.FC = () => {
   const [resource, setResource] = useState<Resource>();
@@ -27,18 +28,31 @@ const ResourceFrame: React.FC = () => {
     fetchResource();
   }, [id]);
 
+  const getInitials = (name: string) => {
+    const nameParts = name.split(" ");
+    return nameParts
+      .map((part) => part.charAt(0))
+      .join("")
+      .toUpperCase();
+  };
+
   return (
-    <>
-      <div>
-        <h1>{resource && resource.name}</h1>
+    <div>
+      {resource && (
+        <div className={styles.name}>
+          <div className={styles.initials}>{getInitials(resource.name)}</div>
+          <h1>{resource.name}</h1>
+        </div>
+      )}
+      <div className={styles.main}>
         <Buttons />
+        <Routes>
+          <Route path="" element={<Navigate to="role-eligibility" />} />
+          <Route path="role-eligibility" element={<RoleEligibility />} />
+          <Route path="skills" element={<Skills />} />
+        </Routes>
       </div>
-      <Routes>
-        <Route path="" element={<Navigate to="role-eligibility" />} />
-        <Route path="role-eligibility" element={<RoleEligibility />} />
-        <Route path="skills" element={<Skills />} />
-      </Routes>
-    </>
+    </div>
   );
 };
 

@@ -7,7 +7,7 @@ import {
   addSkillToResource,
   deleteSkillFromResource,
 } from "../handlers/apiHandlers";
-import styles from "./skills.module.css";
+import styles from "./styles/skills.module.css";
 import Button from "../components/Button";
 import ClipLoader from "react-spinners/ClipLoader";
 
