@@ -1,5 +1,6 @@
 import React from "react";
-import styles from "./styles/button.module.css";
+import { Link, useParams } from "react-router-dom";
+import styles from "./styles/buttons.module.css";
 import Button from "./Button";
 import { ButtonValues } from "../types";
 
@@ -8,10 +9,15 @@ interface ButtonsProps {
 }
 
 const Buttons: React.FC<ButtonsProps> = ({ activeButton }) => {
+  const { id } = useParams<{ id: string }>();
   return (
     <div className={styles.buttons}>
-      <Button active={activeButton == "eligibility"}>Role Eligibility</Button>
-      <Button active={activeButton == "skills"}>Skills</Button>
+      <Link to={`/resources/${id}/role-eligibility`} className={styles.buttons}>
+        <Button active={activeButton == "eligibility"}>Role Eligibility</Button>
+      </Link>
+      <Link to={`/resources/${id}/skills`} className={styles.buttons}>
+        <Button active={activeButton == "skills"}>Skills</Button>
+      </Link>
     </div>
   );
 };

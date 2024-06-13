@@ -1,14 +1,14 @@
 // Home.tsx
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
-import { Resource, Role } from "../types";
+import { Route, Routes, useParams } from "react-router-dom";
+import { Resource } from "../types";
 import { getResource } from "../handlers/apiHandlers";
-import styles from "./roleEligibility.module.css";
 import Buttons from "../components/Buttons";
+import Skills from "./Skills";
+import RoleEligibility from "./RoleEligibility";
 
-const Skills: React.FC = () => {
+const ResourceFrame: React.FC = () => {
   const [resource, setResource] = useState<Resource>();
-  const [availability, setAvailability] = useState<Role[]>([]);
   const { id } = useParams<{ id: string }>();
 
   useEffect(() => {
@@ -30,14 +30,16 @@ const Skills: React.FC = () => {
 
   return (
     <>
-      {resource && (
-        <div>
-          <h1>{resource.name}</h1>
-          <div>Skills!</div>
-        </div>
-      )}
+      <div>
+        <h1>{resource && resource.name}</h1>
+        <Buttons activeButton="eligibility" />
+      </div>
+      <Routes>
+        <Route path="role-eligibility" element={<RoleEligibility />} />
+        <Route path="skills" element={<Skills />} />
+      </Routes>
     </>
   );
 };
 
-export default Skills;
+export default ResourceFrame;

@@ -1,19 +1,18 @@
 // Home.tsx
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { Resource, Role } from "../types";
 import {
   getResource,
   getResourceRoleEligibility,
 } from "../handlers/apiHandlers";
-import Button from "../components/Button";
 import styles from "./roleEligibility.module.css";
+import Buttons from "../components/Buttons";
 
 const RoleEligibility: React.FC = () => {
   const [resource, setResource] = useState<Resource>();
   const [availability, setAvailability] = useState<Role[]>([]);
   const [eligible, setEligible] = useState<boolean>(true);
-  const [skills, setSkills] = useState<boolean>(false);
   const { id } = useParams<{ id: string }>();
 
   useEffect(() => {
@@ -47,34 +46,20 @@ const RoleEligibility: React.FC = () => {
     fetchAvailability();
   }, [id]);
 
-  const toggleStates = () => {
-    setEligible((prevEligible) => !prevEligible);
-    setSkills((prevSkills) => !prevSkills);
-  };
-
   return (
     <>
       {resource && (
         <div>
           <h1>{resource.name}</h1>
 
-          <div className={styles.buttons}>
-            <Button active={eligible} onClick={() => toggleStates()}>
-              Role Eligibility
-            </Button>
-            <Button active={skills} onClick={() => toggleStates()}>
-              Skills
-            </Button>
+          <Link to={`/skills/${id}`} className={styles.buttons}>
+            <Buttons activeButton="eligibility" />
+          </Link>
+
+          <div>
+            {availability &&
+              availability.map((role) => <li key={role.id}>{role.name}</li>)}
           </div>
-
-          {eligible && (
-            <div>
-              {availability &&
-                availability.map((role) => <li key={role.id}>{role.name}</li>)}
-            </div>
-          )}
-
-          {skills && <div>Skills!</div>}
         </div>
       )}
     </>
