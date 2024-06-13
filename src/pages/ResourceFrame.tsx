@@ -1,6 +1,5 @@
-// Home.tsx
 import React, { useEffect, useState } from "react";
-import { Route, Routes, useParams } from "react-router-dom";
+import { Route, Routes, useParams, Navigate } from "react-router-dom";
 import { Resource } from "../types";
 import { getResource } from "../handlers/apiHandlers";
 import Buttons from "../components/Buttons";
@@ -35,6 +34,7 @@ const ResourceFrame: React.FC = () => {
         <Buttons activeButton="eligibility" />
       </div>
       <Routes>
+        <Route path="" element={<Navigate to="role-eligibility" />} />
         <Route path="role-eligibility" element={<RoleEligibility />} />
         <Route path="skills" element={<Skills />} />
       </Routes>

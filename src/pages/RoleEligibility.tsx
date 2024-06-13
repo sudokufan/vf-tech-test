@@ -6,7 +6,7 @@ import {
   getResource,
   getResourceRoleEligibility,
 } from "../handlers/apiHandlers";
-import styles from "./roleEligibility.module.css"; // Assuming you have a CSS file for styles
+import styles from "./roleEligibility.module.css";
 
 const RoleEligibility: React.FC = () => {
   const [resource, setResource] = useState<Resource | null>(null);

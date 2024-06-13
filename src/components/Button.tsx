@@ -4,6 +4,7 @@ import styles from "./styles/button.module.css";
 interface ButtonProps {
   onClick?: () => void;
   active?: boolean;
+  disabled?: boolean;
   children: ReactNode;
 }
 

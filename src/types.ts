@@ -15,4 +15,15 @@ export interface Role {
   ];
 }
 
+export interface Skill {
+  id: number;
+  name: string;
+  requiredForRoles: [
+    {
+      id: number;
+      name: string;
+    }
+  ];
+}
+
 export type ButtonValues = "skills" | "eligibility";

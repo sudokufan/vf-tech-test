@@ -14,4 +14,5 @@ You will also see any lint errors in the console.
 
 With more time, I would like to:
 
-- create a variables file for commonly-used sizes, brand colours etc
+- create a variables file for commonly-used sizes, brand colours, typography styling etc
+- add Redux or a resource context/provider to save the duplicate resource API calls across different views
