@@ -3,8 +3,6 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import styles from "./App.module.css";
 import Sidebar from "./components/Sidebar";
 import Home from "./pages/Home";
-import RoleEligibility from "./pages/RoleEligibility";
-import Skills from "./pages/Skills";
 import ResourceFrame from "./pages/ResourceFrame";
 
 const App: React.FC = () => {

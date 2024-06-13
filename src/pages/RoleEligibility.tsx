@@ -1,18 +1,16 @@
 // Home.tsx
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { Resource, Role } from "../types";
 import {
   getResource,
   getResourceRoleEligibility,
 } from "../handlers/apiHandlers";
-import styles from "./roleEligibility.module.css";
-import Buttons from "../components/Buttons";
+import styles from "./roleEligibility.module.css"; // Assuming you have a CSS file for styles
 
 const RoleEligibility: React.FC = () => {
-  const [resource, setResource] = useState<Resource>();
+  const [resource, setResource] = useState<Resource | null>(null);
   const [availability, setAvailability] = useState<Role[]>([]);
-  const [eligible, setEligible] = useState<boolean>(true);
   const { id } = useParams<{ id: string }>();
 
   useEffect(() => {
@@ -46,23 +44,41 @@ const RoleEligibility: React.FC = () => {
     fetchAvailability();
   }, [id]);
 
+  const eligibleRoles = availability.filter((role) =>
+    role.skillsRequired.every((skill) => skill.hasSkill)
+  );
+
   return (
-    <>
+    <div className={styles.container}>
       {resource && (
-        <div>
-          <h1>{resource.name}</h1>
-
-          <Link to={`/skills/${id}`} className={styles.buttons}>
-            <Buttons activeButton="eligibility" />
-          </Link>
-
-          <div>
-            {availability &&
-              availability.map((role) => <li key={role.id}>{role.name}</li>)}
-          </div>
-        </div>
+        <>
+          <h2 className={styles.header}>
+            {resource.name} is eligible for {eligibleRoles.length} role
+            {eligibleRoles.length !== 1 ? "s" : ""}
+          </h2>
+          <ul>
+            {availability.map((role) => {
+              const acquiredSkills = role.skillsRequired.filter(
+                (skill) => skill.hasSkill
+              ).length;
+              const isEligible = acquiredSkills === role.skillsRequired.length;
+              return (
+                <li
+                  key={role.id}
+                  className={`${styles.role} ${isEligible && styles.eligible}`}
+                >
+                  {role.name}
+                  <span>
+                    {acquiredSkills} of {role.skillsRequired.length} Required
+                    Skills
+                  </span>
+                </li>
+              );
+            })}
+          </ul>
+        </>
       )}
-    </>
+    </div>
   );
 };
 

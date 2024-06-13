@@ -1,3 +1,26 @@
-.buttons {
-  cursor: pointer;
+.container {
+  margin-left: 40px;
+}
+
+.header {
+  font-size: 15px;
+  font-weight: 400;
+}
+
+.role {
+  padding: 16px;
+  margin: 8px 0;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  display: flex;
+  font-weight: 500;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: space-between;
+}
+
+.eligible {
+  background-color: #f3f4f6;
+  border: 1px solid #d0d4de;
+  color: #7c3bed;
 }

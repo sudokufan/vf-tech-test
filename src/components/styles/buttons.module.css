@@ -1,5 +1,5 @@
 .buttons {
   display: flex;
   gap: 5px;
-  cursor: pointer;
+  margin-bottom: 20px;
 }
