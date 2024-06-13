@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import styles from "./styles/sidebar.module.css";
 import { getResources } from "../handlers/apiHandlers";
 import Logo from "./Logo";
@@ -7,6 +7,7 @@ import { Resource } from "../types";
 
 const Sidebar: React.FC = () => {
   const [resources, setResources] = useState<Resource[]>([]);
+  const location = useLocation();
 
   useEffect(() => {
     const fetchResources = async () => {
@@ -22,16 +23,26 @@ const Sidebar: React.FC = () => {
     fetchResources();
   }, []);
 
+  const isActive = (id: string) =>
+    location.pathname.includes(`/resources/${id}`);
+
   return (
     <div className={styles.sidebar}>
       <Link to={`/`}>
         <Logo />
       </Link>
 
-      <ul>
+      <ul className={styles.list}>
         {resources.map((resource) => (
-          <li key={resource.id}>
-            <Link to={`/resources/${resource.id}`}>{resource.name}</Link>
+          <li key={resource.id} className={styles.resource}>
+            <Link
+              to={`/resources/${resource.id}`}
+              className={`${styles.link} ${
+                isActive(resource.id) ? styles.active : ""
+              }`}
+            >
+              {resource.name}
+            </Link>
           </li>
         ))}
       </ul>

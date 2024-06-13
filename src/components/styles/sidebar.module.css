@@ -5,11 +5,15 @@
   font-weight: 500;
 }
 
-.sidebar ul {
+.list {
   padding-top: 30px;
   padding-left: 10px;
 }
 
-.sidebar li {
+.resource {
   margin-bottom: 10px;
+}
+
+.active {
+  background-color: #e9e6fb;
 }

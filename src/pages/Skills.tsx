@@ -9,7 +9,7 @@ import {
 } from "../handlers/apiHandlers";
 import styles from "./skills.module.css";
 import Button from "../components/Button";
-// import Spinner from "./Spinner";
+import ClipLoader from "react-spinners/ClipLoader";
 
 const Skills: React.FC = () => {
   const [skills, setSkills] = useState<Skill[]>([]);
@@ -104,69 +104,74 @@ const Skills: React.FC = () => {
     : skills;
 
   return (
-    <>
-      <div>
-        <h1>Skills!</h1>
-        <label>
-          <input
-            type="checkbox"
-            checked={showAcquiredSkills}
-            onChange={() => setShowAcquiredSkills(!showAcquiredSkills)}
-          />
-          Only show acquired skills
-        </label>
-        {error && (
-          <div>
-            <p>{error}</p>
-            <button onClick={handleRetry}>Retry</button>
-          </div>
-        )}
-        {loadingSkills || loadingResourceSkills ? (
-          // <Spinner />
-          <div>loading</div>
-        ) : (
-          <ul>
-            {filteredSkills.map((skill) => (
-              <li key={skill.id} className={styles.skill}>
-                <div>
-                  <strong>{skill.name}</strong>
-                  <ul>
-                    {skill.requiredForRoles.map((role) => (
-                      <li key={role.id}>{role.name}</li>
-                    ))}
-                  </ul>
-                  {isSkillAcquired(skill.id) ? (
-                    <Button
-                      onClick={() => handleRemoveSkill(id ? id : "", skill.id)}
-                      disabled={updatingSkillId === skill.id}
-                    >
-                      {updatingSkillId === skill.id ? (
-                        // <Spinner />
-                        <div>loading</div>
-                      ) : (
-                        "Remove"
-                      )}
-                    </Button>
+    <div>
+      <label>
+        <input
+          type="checkbox"
+          checked={showAcquiredSkills}
+          onChange={() => setShowAcquiredSkills(!showAcquiredSkills)}
+        />
+        Only show acquired skills
+      </label>
+      {error && (
+        <div>
+          <p>{error}</p>
+          <button onClick={handleRetry}>Retry</button>
+        </div>
+      )}
+      {loadingSkills || loadingResourceSkills ? (
+        // <Spinner />
+        <div>loading</div>
+      ) : (
+        <ul>
+          {filteredSkills.map((skill) => (
+            <li key={skill.id} className={styles.skill}>
+              <div className={styles.info}>
+                <div>{skill.name}</div>
+                <ul>
+                  {skill.requiredForRoles.map((role) => (
+                    <li key={role.id}>{role.name}</li>
+                  ))}
+                </ul>
+              </div>
+              {isSkillAcquired(skill.id) ? (
+                <Button
+                  onClick={() => handleRemoveSkill(id ? id : "", skill.id)}
+                  disabled={updatingSkillId === skill.id}
+                >
+                  {updatingSkillId === skill.id ? (
+                    <ClipLoader
+                      // color={color}
+                      loading={updatingSkillId !== null}
+                      // cssOverride={override}
+                      size={150}
+                    />
                   ) : (
-                    <Button
-                      onClick={() => handleAddSkill(id ? id : "", skill.id)}
-                      disabled={updatingSkillId === skill.id}
-                    >
-                      {updatingSkillId === skill.id ? (
-                        // <Spinner />
-                        <div>loading</div>
-                      ) : (
-                        "Add"
-                      )}
-                    </Button>
+                    "Remove"
                   )}
-                </div>
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
-    </>
+                </Button>
+              ) : (
+                <Button
+                  onClick={() => handleAddSkill(id ? id : "", skill.id)}
+                  disabled={updatingSkillId === skill.id}
+                >
+                  {updatingSkillId === skill.id ? (
+                    <ClipLoader
+                      // color={color}
+                      loading={updatingSkillId !== null}
+                      // cssOverride={override}
+                      size={150}
+                    />
+                  ) : (
+                    "Add"
+                  )}
+                </Button>
+              )}
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
   );
 };
 

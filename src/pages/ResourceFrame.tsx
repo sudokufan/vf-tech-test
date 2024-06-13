@@ -31,7 +31,7 @@ const ResourceFrame: React.FC = () => {
     <>
       <div>
         <h1>{resource && resource.name}</h1>
-        <Buttons activeButton="eligibility" />
+        <Buttons />
       </div>
       <Routes>
         <Route path="" element={<Navigate to="role-eligibility" />} />
