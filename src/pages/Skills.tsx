@@ -14,9 +14,9 @@ import ClipLoader from "react-spinners/ClipLoader";
 const Skills: React.FC = () => {
   const [skills, setSkills] = useState<Skill[]>([]);
   const [resourceSkills, setResourceSkills] = useState<Skill[]>([]);
-  const [updatingSkillId, setUpdatingSkillId] = useState<number | null>(null);
+  const [updatingSkillIds, setUpdatingSkillIds] = useState<number[]>([]);
   const [showAcquiredSkills, setShowAcquiredSkills] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
+  const [errorId, setErrorId] = useState<number | null>(null);
   const { id } = useParams<{ id: string }>();
 
   useEffect(() => {
@@ -29,8 +29,6 @@ const Skills: React.FC = () => {
         );
       } catch (error) {
         console.error("Error fetching skills:", error);
-        setError("Error fetching skills.");
-      } finally {
       }
     };
 
@@ -46,7 +44,6 @@ const Skills: React.FC = () => {
         setResourceSkills(data);
       } catch (error) {
         console.error("Error fetching resource skills:", error);
-        setError("Error fetching resource skills.");
       }
     };
 
@@ -55,7 +52,7 @@ const Skills: React.FC = () => {
   }, [id]);
 
   const handleAddSkill = async (id: string, skillId: number) => {
-    setUpdatingSkillId(skillId);
+    setUpdatingSkillIds((prev) => [...prev, skillId]);
     try {
       await addSkillToResource(id, skillId);
       const response = await getResourceSkills(id);
@@ -63,14 +60,14 @@ const Skills: React.FC = () => {
       setResourceSkills(data);
     } catch (error) {
       console.error("Error adding skill:", error);
-      setError("Error adding skill. Please try again.");
     } finally {
-      setUpdatingSkillId(null);
+      setUpdatingSkillIds((prev) => prev.filter((sid) => sid !== skillId));
     }
   };
 
   const handleRemoveSkill = async (id: string, skillId: number) => {
-    setUpdatingSkillId(skillId);
+    setErrorId(null);
+    setUpdatingSkillIds((prev) => [...prev, skillId]);
     try {
       await deleteSkillFromResource(id, skillId);
       const response = await getResourceSkills(id);
@@ -78,14 +75,10 @@ const Skills: React.FC = () => {
       setResourceSkills(data);
     } catch (error) {
       console.error("Error removing skill:", error);
-      setError("Error removing skill. Please try again.");
+      setErrorId(skillId);
     } finally {
-      setUpdatingSkillId(null);
+      setUpdatingSkillIds((prev) => prev.filter((sid) => sid !== skillId));
     }
-  };
-
-  const handleRetry = () => {
-    setError(null);
   };
 
   const isSkillAcquired = (skillId: number) => {
@@ -107,60 +100,54 @@ const Skills: React.FC = () => {
         />
         Only show acquired skills
       </label>
-      {error && (
-        <div className={`${styles.skill} ${styles.error}`}>
-          <p>{error}</p>
-          <Button onClick={handleRetry}>Retry</Button>
-        </div>
-      )}
-      {resourceSkills && (
-        <ul>
-          {filteredSkills.map((skill) => (
-            <li
-              key={skill.id}
-              className={`${styles.skill} ${
-                isSkillAcquired(skill.id) && styles.acquired
-              }`}
-            >
-              <div className={styles.info}>
-                <div>{skill.name}</div>
-                <ul>
-                  {skill.requiredForRoles.map((role) => (
-                    <li key={role.id} className={styles.roleName}>
-                      Roles: {role.name}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              {isSkillAcquired(skill.id) ? (
-                <Button
-                  transparent
-                  onClick={() => handleRemoveSkill(id ? id : "", skill.id)}
-                  disabled={updatingSkillId === skill.id}
-                >
-                  {updatingSkillId === skill.id ? (
-                    <ClipLoader loading={updatingSkillId !== null} size={20} />
-                  ) : (
-                    "Remove"
-                  )}
-                </Button>
-              ) : (
-                <Button
-                  transparent
-                  onClick={() => handleAddSkill(id ? id : "", skill.id)}
-                  disabled={updatingSkillId === skill.id}
-                >
-                  {updatingSkillId === skill.id ? (
-                    <ClipLoader loading={updatingSkillId !== null} size={20} />
-                  ) : (
-                    "Add"
-                  )}
-                </Button>
-              )}
-            </li>
-          ))}
-        </ul>
-      )}
+      <ul>
+        {filteredSkills.map((skill) => (
+          <li
+            key={skill.id}
+            className={`${styles.skill} ${
+              isSkillAcquired(skill.id) && styles.acquired
+            } ${errorId === skill.id && styles.error}`}
+          >
+            <div className={styles.info}>
+              <div>{skill.name}</div>
+              <ul>
+                {skill.requiredForRoles.map((role) => (
+                  <li key={role.id} className={styles.roleName}>
+                    Roles: {role.name}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            {isSkillAcquired(skill.id) ? (
+              <Button
+                transparent
+                onClick={() => handleRemoveSkill(id || "", skill.id)}
+                disabled={updatingSkillIds.includes(skill.id)}
+              >
+                {updatingSkillIds.includes(skill.id) ? (
+                  <ClipLoader loading={true} size={20} />
+                ) : errorId ? (
+                  "Retry"
+                ) : (
+                  "Remove"
+                )}
+              </Button>
+            ) : (
+              <Button
+                transparent
+                onClick={() => handleAddSkill(id || "", skill.id)}
+                disabled={updatingSkillIds.includes(skill.id)}
+              >
+                {updatingSkillIds.includes(skill.id) ? (
+                  <ClipLoader loading={true} size={20} />
+                ) : (
+                  "Add"
+                )}
+              </Button>
+            )}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };
