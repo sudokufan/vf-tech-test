@@ -7,13 +7,15 @@
 
 .list {
   padding-top: 30px;
-  padding-left: 10px;
 }
 
 .resource {
-  margin-bottom: 10px;
+  padding: 5px;
+  margin: 5px 0px;
 }
 
 .active {
   background-color: #e9e6fb;
+  border: 1px solid #d9d2fc;
+  border-radius: 5px;
 }

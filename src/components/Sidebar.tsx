@@ -34,15 +34,13 @@ const Sidebar: React.FC = () => {
 
       <ul className={styles.list}>
         {resources.map((resource) => (
-          <li key={resource.id} className={styles.resource}>
-            <Link
-              to={`/resources/${resource.id}`}
-              className={`${styles.link} ${
-                isActive(resource.id) ? styles.active : ""
-              }`}
-            >
-              {resource.name}
-            </Link>
+          <li
+            key={resource.id}
+            className={`${styles.resource} ${
+              isActive(resource.id) ? styles.active : ""
+            }`}
+          >
+            <Link to={`/resources/${resource.id}`}>{resource.name}</Link>
           </li>
         ))}
       </ul>

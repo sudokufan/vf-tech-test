@@ -15,3 +15,7 @@
   background-color: #eceaff;
   color: #7c3bed;
 }
+
+.transparent {
+  background-color: transparent;
+}

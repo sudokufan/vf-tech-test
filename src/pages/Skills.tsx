@@ -14,9 +14,6 @@ import ClipLoader from "react-spinners/ClipLoader";
 const Skills: React.FC = () => {
   const [skills, setSkills] = useState<Skill[]>([]);
   const [resourceSkills, setResourceSkills] = useState<Skill[]>([]);
-  const [loadingSkills, setLoadingSkills] = useState<boolean>(true);
-  const [loadingResourceSkills, setLoadingResourceSkills] =
-    useState<boolean>(true);
   const [updatingSkillId, setUpdatingSkillId] = useState<number | null>(null);
   const [showAcquiredSkills, setShowAcquiredSkills] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -24,7 +21,6 @@ const Skills: React.FC = () => {
 
   useEffect(() => {
     const fetchSkills = async () => {
-      setLoadingSkills(true);
       try {
         const response = await getSkills();
         const data = await response.json();
@@ -35,7 +31,6 @@ const Skills: React.FC = () => {
         console.error("Error fetching skills:", error);
         setError("Error fetching skills.");
       } finally {
-        setLoadingSkills(false);
       }
     };
 
@@ -44,7 +39,7 @@ const Skills: React.FC = () => {
         console.error("Resource ID is undefined.");
         return;
       }
-      setLoadingResourceSkills(true);
+
       try {
         const response = await getResourceSkills(id);
         const data = await response.json();
@@ -52,8 +47,6 @@ const Skills: React.FC = () => {
       } catch (error) {
         console.error("Error fetching resource skills:", error);
         setError("Error fetching resource skills.");
-      } finally {
-        setLoadingResourceSkills(false);
       }
     };
 
@@ -107,6 +100,7 @@ const Skills: React.FC = () => {
     <div>
       <label>
         <input
+          className={styles.label}
           type="checkbox"
           checked={showAcquiredSkills}
           onChange={() => setShowAcquiredSkills(!showAcquiredSkills)}
@@ -114,54 +108,50 @@ const Skills: React.FC = () => {
         Only show acquired skills
       </label>
       {error && (
-        <div>
+        <div className={`${styles.skill} ${styles.error}`}>
           <p>{error}</p>
-          <button onClick={handleRetry}>Retry</button>
+          <Button onClick={handleRetry}>Retry</Button>
         </div>
       )}
-      {loadingSkills || loadingResourceSkills ? (
-        // <Spinner />
-        <div>loading</div>
-      ) : (
+      {resourceSkills && (
         <ul>
           {filteredSkills.map((skill) => (
-            <li key={skill.id} className={styles.skill}>
+            <li
+              key={skill.id}
+              className={`${styles.skill} ${
+                isSkillAcquired(skill.id) && styles.acquired
+              }`}
+            >
               <div className={styles.info}>
                 <div>{skill.name}</div>
                 <ul>
                   {skill.requiredForRoles.map((role) => (
-                    <li key={role.id}>{role.name}</li>
+                    <li key={role.id} className={styles.roleName}>
+                      Roles: {role.name}
+                    </li>
                   ))}
                 </ul>
               </div>
               {isSkillAcquired(skill.id) ? (
                 <Button
+                  transparent
                   onClick={() => handleRemoveSkill(id ? id : "", skill.id)}
                   disabled={updatingSkillId === skill.id}
                 >
                   {updatingSkillId === skill.id ? (
-                    <ClipLoader
-                      // color={color}
-                      loading={updatingSkillId !== null}
-                      // cssOverride={override}
-                      size={150}
-                    />
+                    <ClipLoader loading={updatingSkillId !== null} size={20} />
                   ) : (
                     "Remove"
                   )}
                 </Button>
               ) : (
                 <Button
+                  transparent
                   onClick={() => handleAddSkill(id ? id : "", skill.id)}
                   disabled={updatingSkillId === skill.id}
                 >
                   {updatingSkillId === skill.id ? (
-                    <ClipLoader
-                      // color={color}
-                      loading={updatingSkillId !== null}
-                      // cssOverride={override}
-                      size={150}
-                    />
+                    <ClipLoader loading={updatingSkillId !== null} size={20} />
                   ) : (
                     "Add"
                   )}
