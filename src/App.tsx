@@ -15,10 +15,10 @@ const App: React.FC = () => {
             <Route path="/" element={<Home />} />
             <Route path="/resources/:id" element={<RoleEligibility />} />
           </Routes>
-          </div>
+        </div>
       </div>
     </BrowserRouter>
   );
-}
+};
 
 export default App;

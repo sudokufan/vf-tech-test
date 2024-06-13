@@ -1,14 +1,18 @@
 export interface Resource {
-    id: string;
-    name: string;
-  }
-  
+  id: string;
+  name: string;
+}
+
 export interface Role {
-    id: number;
-    name: string;
-    skillsRequired: [{
-        id: number;
-        name: string;
-        hasSkill: boolean;
-    }]
-  }
+  id: number;
+  name: string;
+  skillsRequired: [
+    {
+      id: number;
+      name: string;
+      hasSkill: boolean;
+    }
+  ];
+}
+
+export type ButtonValues = "skills" | "eligibility";

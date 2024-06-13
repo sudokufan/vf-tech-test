@@ -6,10 +6,10 @@ import {
   getResource,
   getResourceRoleEligibility,
 } from "../handlers/apiHandlers";
-import Button from "../components/Button";
 import styles from "./roleEligibility.module.css";
+import Buttons from "../components/Buttons";
 
-const RoleEligibility: React.FC = () => {
+const Eligibility: React.FC = () => {
   const [resource, setResource] = useState<Resource>();
   const [availability, setAvailability] = useState<Role[]>([]);
   const [eligible, setEligible] = useState<boolean>(true);
@@ -58,14 +58,7 @@ const RoleEligibility: React.FC = () => {
         <div>
           <h1>{resource.name}</h1>
 
-          <div className={styles.buttons}>
-            <Button active={eligible} onClick={() => toggleStates()}>
-              Role Eligibility
-            </Button>
-            <Button active={skills} onClick={() => toggleStates()}>
-              Skills
-            </Button>
-          </div>
+          <Buttons activeButton="eligibility" />
 
           {eligible && (
             <div>
@@ -81,4 +74,4 @@ const RoleEligibility: React.FC = () => {
   );
 };
 
-export default RoleEligibility;
+export default Eligibility;

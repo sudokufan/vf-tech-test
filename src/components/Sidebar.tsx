@@ -6,31 +6,33 @@ import Logo from "./Logo";
 import { Resource } from "../types";
 
 const Sidebar: React.FC = () => {
-    const [resources, setResources] = useState<Resource[]>([]);
-    
-    useEffect(() => {
-        const fetchResources = async () => {
-            try {
-                const response = await getResources();
-                const data = await response.json();
-                data.sort((a: Resource, b: Resource) => a.name.localeCompare(b.name));
-                setResources(data);
-            } catch (error) {
-                console.error("Error fetching resources:", error);
-            }
-        };
+  const [resources, setResources] = useState<Resource[]>([]);
+
+  useEffect(() => {
+    const fetchResources = async () => {
+      try {
+        const response = await getResources();
+        const data = await response.json();
+        data.sort((a: Resource, b: Resource) => a.name.localeCompare(b.name));
+        setResources(data);
+      } catch (error) {
+        console.error("Error fetching resources:", error);
+      }
+    };
     fetchResources();
   }, []);
 
   return (
     <div className={styles.sidebar}>
-      <Link to={`/`}><Logo /></Link>
+      <Link to={`/`}>
+        <Logo />
+      </Link>
 
       <ul>
         {resources.map((resource) => (
           <li key={resource.id}>
             <Link to={`/resources/${resource.id}`}>{resource.name}</Link>
-            </li>
+          </li>
         ))}
       </ul>
     </div>
