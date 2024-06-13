@@ -39,19 +39,21 @@ const ResourceFrame: React.FC = () => {
   return (
     <div>
       {resource && (
-        <div className={styles.name}>
-          <div className={styles.initials}>{getInitials(resource.name)}</div>
-          <h1>{resource.name}</h1>
-        </div>
+        <>
+          <div className={styles.name}>
+            <div className={styles.initials}>{getInitials(resource.name)}</div>
+            <h1>{resource.name}</h1>
+          </div>
+          <div className={styles.main}>
+            <Buttons />
+            <Routes>
+              <Route path="" element={<Navigate to="role-eligibility" />} />
+              <Route path="role-eligibility" element={<RoleEligibility />} />
+              <Route path="skills" element={<Skills />} />
+            </Routes>
+          </div>
+        </>
       )}
-      <div className={styles.main}>
-        <Buttons />
-        <Routes>
-          <Route path="" element={<Navigate to="role-eligibility" />} />
-          <Route path="role-eligibility" element={<RoleEligibility />} />
-          <Route path="skills" element={<Skills />} />
-        </Routes>
-      </div>
     </div>
   );
 };

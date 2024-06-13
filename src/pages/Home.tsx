@@ -1,9 +1,9 @@
-// Home.tsx
 import React from "react";
+import styles from "./styles/home.module.css";
 
 const Home: React.FC = () => {
   return (
-    <div>
+    <div className={styles.container}>
       <h1>Welcome</h1>
       <p>
         Welcome to VF Resourcing. Select a resource to view role eligibility and

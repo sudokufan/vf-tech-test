@@ -66,13 +66,15 @@ const Skills: React.FC = () => {
   };
 
   const handleRemoveSkill = async (id: string, skillId: number) => {
-    setErrorId(null);
     setUpdatingSkillIds((prev) => [...prev, skillId]);
     try {
       await deleteSkillFromResource(id, skillId);
       const response = await getResourceSkills(id);
       const data = await response.json();
       setResourceSkills(data);
+      if (errorId === skillId) {
+        setErrorId(null);
+      }
     } catch (error) {
       console.error("Error removing skill:", error);
       setErrorId(skillId);
@@ -126,7 +128,7 @@ const Skills: React.FC = () => {
               >
                 {updatingSkillIds.includes(skill.id) ? (
                   <ClipLoader loading={true} size={20} />
-                ) : errorId ? (
+                ) : errorId === skill.id ? (
                   "Retry"
                 ) : (
                   "Remove"
